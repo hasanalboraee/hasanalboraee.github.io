@@ -4,7 +4,7 @@ date: 2025-03-16 12:00:00 +0000
 categories: [Linux, Security]
 tags: [File Transfer, Offensive Security, Incident Response]
 description: "Exploring various methods to transfer files in Linux, from traditional tools to fileless techniques."
-image: "/assets/images/linux-file-transfer.png"
+#image: "/assets/images/linux-file-transfer.png"
 ---
 
 ## Introduction
