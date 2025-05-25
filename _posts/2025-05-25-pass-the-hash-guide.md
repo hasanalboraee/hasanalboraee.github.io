@@ -5,7 +5,7 @@ date: 2025-05-25 00:00:00 +0000
 categories: \[Security, Red Team]
 tags: \[pass-the-hash, NTLM, windows, pentesting, mimikatz, impacket, crackmapexec]
 pin: false
-----------
+---
 
 A Pass the Hash (PtH) attack is a technique in which an attacker uses a password hash to authenticate to remote systems instead of the plaintext password. This method exploits authentication protocols like NTLM that accept hashed credentials without decrypting them. Since the hash remains valid until the user changes the password, it can be reused multiple times, making it a powerful attack vector.
 
