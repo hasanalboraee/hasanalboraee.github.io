@@ -1,8 +1,8 @@
 ---
 title: "Pass the Hash (PtH) Attack: A Practical Guide"
 date: 2025-05-25 00:00:00 +0000
-tags: \[pentesting, windows, mimikatz, impacket, red-teaming]
-categories: \[security, red-teaming]
+tags: [pentesting, windows, mimikatz, impacket, red-teaming]
+categories: [security, red-teaming]
 pin: false
 ----------
 
